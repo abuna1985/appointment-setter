@@ -1,28 +1,52 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="main-app" class="container">
+   <div class="row justify-content-center">
+     <appointment-list :listOfAppointments="appointments" :hasErrored="errored" :isLoading="loading" @remove-item="removeItem" />
+   </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import AppointmentList from './components/AppointmentList';
 export default {
-  name: 'app',
+  name: 'MainApp',
+  data: () => {
+    return {
+      appointments: [],
+      loading: true,
+      errored: false
+    }
+  },
+  mounted() {
+    this.axios
+    .get('./data/appointments.json')
+    .then(response => {
+      this.appointments = response.data.appointments
+    })
+    .catch(error => {
+      // eslint-disable-next-line
+      console.log(error)
+      this.errored = true
+    })
+   
+    setTimeout(() => {
+      this.loading = false;
+    }, 2000)
+  },
   components: {
-    HelloWorld
+    AppointmentList
+  },
+  methods: {
+
+    //TODO: determine how to accept child component and remove it from the appointments array
+    removeItem: apt => {
+      if (this.appointments.length) {
+        // eslint-disable-next-line
+        console.log('deleted')
+        // eslint-disable-next-line
+        console.log(apt);
+      }
+    }
   }
 }
 </script>
-
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>

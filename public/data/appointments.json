@@ -1,0 +1,36 @@
+{
+  "appointments": [
+    {
+      "firstName": "Skeeter",
+      "lastName": "Valentine",
+      "patientAge": 7,
+      "patientGuardian": "Ruby Valentine",
+      "aptDate": "2019-11-05 08:00",
+      "aptNotes": "Biannual dental exam."
+    },
+    {
+      "firstName": "Patty",
+      "lastName": "Mayonnaise",
+      "patientAge": 8,
+      "patientGuardian": "Todd Mayonnaise",
+      "aptDate": "2019-11-06 08:30",
+      "aptNotes": "6 month check up."
+    },
+    {
+      "firstName": "Roger",
+      "lastName": "Klotz",
+      "patientAge": 9,
+      "patientGuardian": "Tonya Klotz",
+      "aptDate": "2019-11-10 10:00",
+      "aptNotes": "Follow up from cavity removal."
+    },
+    {
+      "firstName": "Doug",
+      "lastName": "Funnie",
+       "patientAge": 10,
+      "patientGuardian": "Phil Funnie",
+      "aptDate": "2019-11-11 13:30",
+      "aptNotes": "Remember to provide flossing tutorial."
+    }
+  ]
+}
