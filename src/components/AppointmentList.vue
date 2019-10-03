@@ -4,11 +4,34 @@
       <p>We're sorry, we're not able to retrieve this information at the moment, please try back later</p>
     </section>
     <section v-else class="list-group list-group-flush">
-      <div v-if="loading" class="loader"></div>
-      <div class="list-group-item d-flex align-items-start" v-else v-for="(item, i) in listOfAppointments" :key="i">
-        <button class="mr-2 btn btn-sm btn-danger" @click="buttonClicked">
+      <div class="d-flex justify-content-center align-items-center loader-container" v-if="loading">
+        <div class="loader"></div>
+      </div>
+
+      <div class="list-group-item d-flex align-items-start" v-else v-for="(item, i) in appointments" :key="i">
+        <button class="mr-2 btn btn-sm btn-danger" data-toggle="modal" data-target="#exampleModal">
           <font-awesome-icon icon="trash"></font-awesome-icon>
         </button>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete Appointment</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <span>Are you sre you want to delete the appointment for {{item.firstName}} {{item.lastName}}?</span>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" @click="$emit('remove', item)" data-dismiss="modal">Delete Appointment</button>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="w-100">
           <div class="d-flex justify-content-between">
             <span class="h4 text-primary">{{item.firstName}} {{item.lastName}}</span>
@@ -31,23 +54,22 @@ import format from 'date-fns/format'
 
 export default {
   name: 'AppointmentList',
-  props: ["listOfAppointments", "errored", "loading"],
+  props: ["appointments", "errored", "loading"],
   methods: {
-    formattedDate: date => {
+    formattedDate: function(date) {
       return format(new Date(date), "MM/dd/yy p");
-    },
-    //TODO: determine how to emit child event (remove/delete) from child to parent component
-    buttonClicked() {
-      this.$emit('remove-item')
     }
   }
 }
 </script>
 <style>
+  .loader-container {
+    height: 100vh;
+  }
   .loader {
     border: 16px solid #f3f3f3;
     border-radius: 50%;
-    border-top: 16px solid #3498db;
+    border-top: 16px solid #007bff;
     width: 100px;
     height: 100px;
     -webkit-animation: spin 2s linear infinite; /* Safari */

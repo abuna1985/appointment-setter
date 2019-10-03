@@ -11,11 +11,6 @@ library.add(faPlus, faMinus, faTrash, faCheck)
  
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
-import axios from 'axios'
-import VueAxios from 'vue-axios'
- 
-Vue.use(VueAxios, axios)
-
 Vue.config.productionTip = false
 
 new Vue({
