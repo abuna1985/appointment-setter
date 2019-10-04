@@ -8,12 +8,12 @@
         <div class="loader"></div>
       </div>
 
-      <div class="list-group-item d-flex align-items-start" v-else v-for="(item, i) in appointments" :key="i">
-        <button class="mr-2 btn btn-sm btn-danger" data-toggle="modal" data-target="#exampleModal">
+      <div class="list-group-item d-flex align-items-start" v-else v-for="item in appointments" :key="item.aptIndex">
+        <button class="mr-2 btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteModal">
           <font-awesome-icon icon="trash"></font-awesome-icon>
         </button>
         <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
@@ -23,7 +23,7 @@
                 </button>
               </div>
               <div class="modal-body">
-                <span>Are you sre you want to delete the appointment for {{item.firstName}} {{item.lastName}}?</span>
+                <span>Are you sure you want to delete the appointment for {{item.patientName}} on {{formattedDate(item.aptDate)}}?</span>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -34,16 +34,16 @@
         </div>
         <div class="w-100">
           <div class="d-flex justify-content-between">
-            <span class="h4 text-primary">{{item.firstName}} {{item.lastName}}</span>
+            <span class="h4 text-primary" contenteditable="contenteditable" @blur="$emit('edit', item.aptIndex, 'patientName', $event.target.innerText)">{{item.patientName}}</span>
             <span class="float-right">{{formattedDate(item.aptDate)}}</span>
           </div>
           <div class="owner-name">
             <span class="font-weight-bold text-primary mr-1">Guardian:</span>
-            <span class="mr-1">{{item.patientGuardian}}</span>
+            <span class="mr-1" contenteditable="contenteditable" @blur="$emit('edit', item.aptIndex, 'patientGuardian', $event.target.innerText)">{{item.patientGuardian}}</span>
             <span class="font-weight-bold text-primary mr-1 float-">Age:</span>
-            <span>{{item.patientAge}}</span>
+            <span contenteditable="contenteditable" @blur="$emit('edit', item.aptIndex, 'patientAge', $event.target.innerText)">{{item.patientAge}}</span>
           </div>
-          <div>{{item.aptNotes}}</div>
+          <div contenteditable="contenteditable" @blur="$emit('edit', item.aptIndex, 'patientNotes', $event.target.innerText)">{{item.aptNotes}}</div>
         </div>
       </div>
     </section>
@@ -54,7 +54,11 @@ import format from 'date-fns/format'
 
 export default {
   name: 'AppointmentList',
-  props: ["appointments", "errored", "loading"],
+  props:{
+    appointments: Array, 
+    errored: Boolean, 
+    loading: Boolean
+  },
   methods: {
     formattedDate: function(date) {
       return format(new Date(date), "MM/dd/yy p");
