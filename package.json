@@ -17,7 +17,7 @@
     "core-js": "^2.6.5",
     "date-fns": "^2.4.1",
     "jquery": "^3.4.1",
-    "lodash": "^4.17.15",
+    "lodash.orderby": "^4.6.0",
     "popper.js": "^1.15.0",
     "vue": "^2.6.10",
     "vue-axios": "^2.1.4"

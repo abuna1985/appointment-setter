@@ -2,8 +2,8 @@
   <div id="main-app" class="container">
    <div class="row justify-content-center">
      <add-appointment @add="addItem"></add-appointment>
-     <search-appointments @searchRecords="searchAppointments"></search-appointments>
-     <appointment-list :appointments="searchedApts" :errored="errored" :loading="loading" @remove="removeItem" @edit="editItem"/>
+     <search-appointments @searchRecords="searchAppointments" :myKey="filterKey" :myDir="filterDir" @requestKey="changeKey" @requestDir="changeDir"></search-appointments>
+     <appointment-list :appointments="filterApts" :errored="errored" :loading="loading" @remove="removeItem" @edit="editItem"/>
    </div>
   </div>
 </template>
@@ -13,6 +13,7 @@ import AppointmentList from './components/AppointmentList';
 import AddAppointment from './components/AddAppointment';
 import SearchAppointments from './components/SearchAppointments';
 import axios from 'axios';
+import orderBy from 'lodash.orderby';
 
 export default {
   name: 'MainApp',
@@ -20,9 +21,11 @@ export default {
     return {
       appointments: [],
       aptIndex: 0,
-      searchTerms: "",
+      filterKey: 'patientName',
+      filterDir: 'asc',
+      searchTerms: '',
       loading: true,
-      errored: false
+      errored: false,
     }
   },
   created() {
@@ -49,18 +52,32 @@ export default {
   },
   computed: {
     searchedApts: function() {
-      return this.appointments.filter(function(item) {
+      return this.appointments.filter(item => {
         return (
           item.patientName.toLowerCase().match(this.searchTerms.toLowerCase()) ||
           item.patientGuardian.toLowerCase().match(this.searchTerms.toLowerCase()) ||
-          item.patientNotes.toLowerCase().match(this.searchTerms.toLowerCase()) 
-        );
+          item.aptNotes.toLowerCase().match(this.searchTerms.toLowerCase())
+        )
       });
+    },
+    filterApts: function() {
+      return orderBy(
+        this.searchedApts,
+        item => {
+          return item[this.filterKey].toLowerCase();
+        }, this.filterDir
+      )
     }
   },
   methods: {
+    changeKey: function(value) {
+      this.filterKey = value;
+    },
+    changeDir: function(value) {
+      this.filterDir = value;
+    },
     removeItem(apt) {
-      this.appointments = this.appointments.filter(function(item) {
+      this.appointments = this.appointments.filter(item => {
         return item.patientName !== apt.patientName;
       })
     },
@@ -77,7 +94,6 @@ export default {
     },
     searchAppointments(terms) {
       this.searchTerms = terms;
-
     }
   }
 }

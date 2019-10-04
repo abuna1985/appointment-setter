@@ -23,19 +23,19 @@
         </button>
 
         <div class="dropdown-menu dropdown-menu-right">
-          <a href="#" class="dropdown-item d-flex justify-content-between" id="petName">
-            Pet Name
-            <font-awesome-icon icon="check"/>
+          <a href="#" class="dropdown-item d-flex justify-content-between" id="patientName" @click="$emit('requestKey', 'patientName')">
+            Name
+            <font-awesome-icon icon="check" v-if="myKey === 'patientName'" />
           </a>
 
-          <a class="dropdown-item d-flex justify-content-between" href="#" id="aptDate">
+          <a class="dropdown-item d-flex justify-content-between" href="#" id="aptDate" @click="$emit('requestKey', 'aptDate')">
             Date
-            <font-awesome-icon icon="check"/>
+            <font-awesome-icon icon="check" v-if="myKey === 'aptDate'" />
           </a>
 
-          <a href="#" class="dropdown-item d-flex justify-content-between" id="ownerName">
-            Owner
-            <font-awesome-icon icon="check"/>
+          <a href="#" class="dropdown-item d-flex justify-content-between" id="patientGuardian" @click="$emit('requestKey', 'patientGuardian')">
+            Guardian
+            <font-awesome-icon icon="check" v-if="myKey === 'patientGuardian'" />
           </a>
 
           <div class="dropdown-divider" role="separator"></div>
@@ -44,18 +44,20 @@
             class="dropdown-item d-flex justify-content-between"
             href="#"
             id="asc"
+            @click="$emit('requestDir', 'asc')"
           >
             Asc
-            <font-awesome-icon icon="check"/>
+            <font-awesome-icon icon="check" v-if="myDir === 'asc'" />
           </a>
 
           <a
             class="dropdown-item d-flex justify-content-between"
             href="#"
             id="desc"
+            @click="$emit('requestDir', 'desc')"
           >
             Desc
-            <font-awesome-icon icon="check"/>
+            <font-awesome-icon icon="check" v-if="myDir === 'desc'" />
           </a>
         </div>
       </div>
@@ -70,9 +72,13 @@ export default {
     }
   },
   watch: {
-    searchTerm() {
+    searchTerm: function() {
       this.$emit("searchRecords", this.searchTerm)
     }
+  },
+  props: {
+    myDir: String,
+    myKey: String
   }
 }
 </script>
