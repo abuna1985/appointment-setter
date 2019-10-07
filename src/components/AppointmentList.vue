@@ -26,15 +26,12 @@ export default {
   components: {
     'appointment': Appointment,
     'appointment-modal': AppointmentModal
-  },
-  methods: {
-    
   }
 }
 </script>
 <style>
   .loader-container {
-    height: 70vh;
+    height: 50vh;
   }
   .loader {
     border: 16px solid #f3f3f3;
