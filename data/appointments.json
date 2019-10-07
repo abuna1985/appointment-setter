@@ -1,0 +1,30 @@
+[
+  {
+    "patientName": "Skeeter Valentine",
+    "patientAge": 7,
+    "patientGuardian": "Ruby Valentine",
+    "aptDate": "2019-11-05 08:00",
+    "aptNotes": "Biannual dental exam.Check to see if he is flossing on a regular basis."
+  },
+  {
+    "patientName": "Patty Mayonnaise",
+    "patientAge": 8,
+    "patientGuardian": "Todd Mayonnaise",
+    "aptDate": "2019-11-06 08:30",
+    "aptNotes": "6 month check up. Check the health of the back teeth."
+  },
+  {
+    "patientName": "Roger Klotz",
+    "patientAge": 9,
+    "patientGuardian": "Tonya Klotz",
+    "aptDate": "2019-11-10 10:00",
+    "aptNotes": "Follow up from cavity removal. See if there are any more cavities."
+  },
+  {
+    "patientName": "Doug Funnie",
+    "patientAge": 10,
+    "patientGuardian": "Phil Funnie",
+    "aptDate": "2019-11-11 13:30",
+    "aptNotes": "Remember to provide flossing tutorial."
+  }
+]
