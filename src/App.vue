@@ -1,9 +1,9 @@
 <template>
   <div id="main-app" class="container">
    <div class="row justify-content-center">
-     <add-appointment @add="addItem"></add-appointment>
+     <add-appointment></add-appointment>
      <search-appointments @searchRecords="searchAppointments" :myKey="filterKey" :myDir="filterDir" @requestKey="changeKey" @requestDir="changeDir"></search-appointments>
-     <appointment-list :appointments="filterApts" :errored="errored" :loading="loading" @remove="removeItem" @edit="editItem"/>
+     <appointment-list :appointments="filterApts" :errored="errored" :loading="loading" />
    </div>
   </div>
 </template>
@@ -14,6 +14,8 @@ import AddAppointment from './components/AddAppointment';
 import SearchAppointments from './components/SearchAppointments';
 import axios from 'axios';
 import orderBy from 'lodash.orderby';
+import without from 'lodash.without';
+import findIndex from 'lodash.findindex';
 
 export default {
   name: 'MainApp',
@@ -31,9 +33,9 @@ export default {
   created() {
     axios.get(`./data/appointments.json`)
       .then(response => this.appointments = response.data.map(item => {
-        item.aptIndex = this.aptIndex;
-        this.aptIndex++;
-        return item;
+         item.aptId = this.aptIndex;
+          this.aptIndex++;
+          return item;
       }))
       .catch(function(error) {
         // eslint-disable-next-line
@@ -43,7 +45,25 @@ export default {
       // force a minimum of a 2 second delay
       setTimeout(() => {
         this.loading = false;
-      }, 2000)
+      }, 2000);
+  },
+  mounted() {
+     this.eventHub.$on('edit', (id, field, text) => {
+        const aptIndex = findIndex(this.appointments, {
+          aptId: id
+        });
+        this.appointments[aptIndex][field] = text;
+      })
+
+      this.eventHub.$on('remove', apt => {
+        this.appointments = without(this.appointments, apt);
+      })
+
+      this.eventHub.$on('add', apt => {
+        apt.aptId = this.aptIndex;
+        this.aptIndex++;
+        this.appointments.push(apt);
+      })
   },
   components: {
     AppointmentList,
@@ -65,8 +85,9 @@ export default {
         this.searchedApts,
         item => {
           return item[this.filterKey].toLowerCase();
-        }, this.filterDir
-      )
+        },
+        this.filterDir
+      );
     }
   },
   methods: {
@@ -75,22 +96,6 @@ export default {
     },
     changeDir: function(value) {
       this.filterDir = value;
-    },
-    removeItem(apt) {
-      this.appointments = this.appointments.filter(item => {
-        return item.patientName !== apt.patientName;
-      })
-    },
-    editItem(id, field, text) {
-      const aptIndex = this.appointments.findIndex(function(item) {
-        return item.aptIndex === id;
-      })
-      this.appointments[aptIndex][field] = text;
-    },
-    addItem(apt) {
-      apt.aptIndex = this.aptIndex;
-      this.aptIndex++;
-      this.appointments.push(apt);
     },
     searchAppointments(terms) {
       this.searchTerms = terms;
