@@ -1,10 +1,15 @@
 <template>
-  <div id="main-app" class="container">
-   <div class="row justify-content-center">
-     <add-appointment></add-appointment>
-     <search-appointments @searchRecords="searchAppointments" :myKey="filterKey" :myDir="filterDir" @requestKey="changeKey" @requestDir="changeDir"></search-appointments>
-     <appointment-list :appointments="filterApts" :errored="errored" :loading="loading" />
-   </div>
+  <div>
+    <header>
+      <appointment-header></appointment-header>
+    </header>
+    <div id="main-app" class="container">
+      <div class="row justify-content-center">
+        <add-appointment></add-appointment>
+        <search-appointments @searchRecords="searchAppointments" :myKey="filterKey" :myDir="filterDir" @requestKey="changeKey" @requestDir="changeDir"></search-appointments>
+        <appointment-list :appointments="filterApts" :errored="errored" :loading="loading" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -12,6 +17,7 @@
 import AppointmentList from './components/AppointmentList';
 import AddAppointment from './components/AddAppointment';
 import SearchAppointments from './components/SearchAppointments';
+import AppointmentHeader from './components/AppointmentHeader';
 import axios from 'axios';
 import orderBy from 'lodash.orderby';
 import without from 'lodash.without';
@@ -49,8 +55,8 @@ export default {
   },
   mounted() {
      this.eventHub.$on('edit', (id, field, text) => {
-        const aptIndex = findIndex(this.appointments, {
-          aptId: id
+        const aptIndex = findIndex(this.appointments, function(apt) {
+          return apt.aptId == id;
         });
         this.appointments[aptIndex][field] = text;
       })
@@ -68,7 +74,8 @@ export default {
   components: {
     AppointmentList,
     AddAppointment,
-    SearchAppointments
+    SearchAppointments,
+    AppointmentHeader
   },
   computed: {
     searchedApts: function() {
