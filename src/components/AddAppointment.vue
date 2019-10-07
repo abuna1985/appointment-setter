@@ -1,11 +1,12 @@
 <template>
     <div class="col-12">
     <div class="card textcenter mt-3">
-      <div class="card-header bg-primary text-white" @click="hidepanel=!hidepanel">
+      <div class="card-header bg-primary text-white" @click="hidepanel=!hidepanel; isVisible=!isVisible;">
         <font-awesome-icon icon="plus" class="mr-3"/>Add Appointment
       </div>
-
-      <div class="card-body" :class="{ 'd-none': hidepanel}">
+    
+      <transition  name="slide-fade">
+        <div class="card-body add-appointment" :class="{ 'd-none': hidepanel}" v-if="isVisible">
         <form id="aptForm" @submit.prevent="requestAdd">
           <div class="form-group form-row">
             <label class="col-md-2 col-form-label text-md-right" for="patientName">Patient Name</label>
@@ -68,6 +69,7 @@
           </div>
         </form>
       </div>
+      </transition>
     </div>
   </div>
 </template>
@@ -77,7 +79,8 @@ export default {
   data() {
     return {
       hidepanel: true,
-      formData: []
+      formData: {},
+      isVisible: false
     }
   },
   methods: {
@@ -89,9 +92,10 @@ export default {
         aptDate: this.formData.aptDate + " " + this.formData.aptTime,
         aptNotes: this.formData.aptNotes,
       };
-      this.$emit("add", this.formData);
+      this.eventHub.$emit('add', this.formData);
       this.formData=[];
       this.hidepanel= true;
+      this.isVisible= false;
     }
   }
 }
@@ -99,5 +103,21 @@ export default {
 <style>
   .card-header {
     cursor: pointer;
+  }
+
+  .slide-fade-enter-active {
+    transition: all .8s linear;
+  }
+
+  .slide-fade-leave-active {
+    transition: all .4s linear;
+  }
+  .slide-fade-enter { 
+    transform: translateY(-25px);
+    opacity: 0;
+  }
+  .slide-fade-leave-to {
+  transform: translateY(-25px);
+    opacity: 0; 
   }
 </style>

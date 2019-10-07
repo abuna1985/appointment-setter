@@ -77,8 +77,14 @@ export default {
     }
   },
   props: {
-    myDir: String,
-    myKey: String
+    myDir: {
+      type: String,
+      required: true
+    },
+    myKey: {
+      type: String,
+      required: true
+    }
   }
 }
 </script>
