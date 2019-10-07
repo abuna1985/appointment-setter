@@ -1,8 +1,8 @@
 <template>
-    <div class="col-12">
+    <div class="col-12 mt-3">
     <div class="card textcenter mt-3">
       <div class="card-header bg-primary text-white" @click="hidepanel=!hidepanel; isVisible=!isVisible;">
-        <font-awesome-icon icon="plus" class="mr-3"/>Add Appointment
+        <font-awesome-icon icon="plus" class="mr-3"/><strong>Add Appointment</strong>
       </div>
     
       <transition  name="slide-fade">
@@ -23,7 +23,7 @@
           </div>
 
           <div class="form-group form-row">
-            <label class="col-md-2 col-form-label text-md-right" for="ownerName">Patient's Guardian</label>
+            <label class="col-md-2 col-form-label text-md-right" for="patientGuardian">Patient's Guardian</label>
             <div class="col-md-10">
               <input type="text" class="form-control" id="patientGuardian" placeholder="Patient's Guardian" v-model="formData.patientGuardian">
             </div>
