@@ -1,8 +1,6 @@
 # Appointment Setter
 
-![Vue Appointment Setter][logo]
-
-[logo]: appointment-setter.jpg
+![alt_text](appointment-setter.jpg "Appointment Setter Screenshot")
 
 A fully functioning appointment setter for a mock children's dentist built in Vue.js. There is a built in 2 second delay to present the loading state of the appointment list. You have the ability to create and update appointments instantly. The appointment list has the contenteditable attribute activated and will update the state of the appoinment list automatically. There is also a delete feature with a modal confirmation with the name and date of the selected patient appointment.
 
