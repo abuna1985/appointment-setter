@@ -68,7 +68,7 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 ## Acknowledgments
 
 * [Ray Villalobos](https://github.com/planetoftheweb) - Lynda course [Vue.js: Building an Interface](https://github.com/planetoftheweb/vue-interface)
-* [PurpleBooth README.ME project example]- (https://gist.github.com/PurpleBooth/109311bb0361f32d87a2)
+* [PurpleBooth README.ME project example](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2)
 
 ## Customize Vue.js Configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
